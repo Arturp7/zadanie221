@@ -27,23 +27,26 @@ public class ProductController {
 
     @ResponseBody
     @RequestMapping("/list")
-    public String list(@RequestParam (required = false)Category category) {
+    public String list(@RequestParam (required = false, defaultValue = " ")Category category) {
         List<Product> productsList = productRepository.getAll();
         String result = "";
         double price = 0;
         double totalPrice = 0;
         for (Product product1 : productsList) {
-            if (product1.getCategory().equals(category)) {
+            if (!(category==null)||!(category.equals(" ")) ) {
+                result += product1.getName() + "  " + product1.getPrice() + "  " + product1.getCategory() + "<br/>";
+                price = price + product1.getPrice();
+            }else if (product1.getCategory().equals(category)){
                 result += product1.getName() + "  " + product1.getPrice() + "  " + product1.getCategory() + "<br/>";
                 price = price + product1.getPrice();
             }
             totalPrice = price;
 
-        }
+        } return result + "Suma cen produktów   " + totalPrice;
 
-        return result + "Suma cen produktów   " + totalPrice;
 
-//, defaultValue = " "
+
+//
 
     }
 
